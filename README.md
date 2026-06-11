@@ -5,7 +5,6 @@ This project uses Deep Learning and TensorFlow to classify fruit images.
 ## Features
 
 - Fruit vs Non-Fruit Classification
-- Apple vs Non-Apple Classification
 - Image Prediction using TensorFlow/Keras
 
 ## Technologies Used
