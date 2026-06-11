@@ -1,0 +1,7 @@
+Minimum 300-500 images per folder for fruit classification.
+Minimum 1000 images per folder for non_fruit classification.
+
+#liabraries
+tensorflow
+numpy
+pillow

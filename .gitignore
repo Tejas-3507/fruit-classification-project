@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+
+.venv/
+venv/
+
+dataset/
+
+*.h5
+*.keras
+
+test/
+
+.DS_Store
