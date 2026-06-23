@@ -8,6 +8,7 @@ dataset/
 
 *.h5
 *.keras
+!fruit_classifier.keras
 
 test/
 

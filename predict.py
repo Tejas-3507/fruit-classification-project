@@ -1,9 +1,11 @@
 import tensorflow as tf
 import numpy as np
 from PIL import Image
-import os
+from pathlib import Path
 
-MODEL_PATH = "fruit_classifier.keras"
+BASE_DIR = Path(__file__).resolve().parent
+MODEL_PATH = BASE_DIR / "fruit_classifier.keras"
+IMG_SIZE = (224, 224)
 
 CLASS_NAMES = [
     "apple",
@@ -14,17 +16,25 @@ CLASS_NAMES = [
     "strawberry"
 ]
 
+if not MODEL_PATH.exists():
+    raise FileNotFoundError(f"Model file not found at {MODEL_PATH}")
+
 model = tf.keras.models.load_model(MODEL_PATH)
 
 image_path = input(
     "Enter image path: "
 )
 
+image_path = Path(image_path)
+
+if not image_path.exists():
+    raise FileNotFoundError(f"Image file not found at {image_path}")
+
 img = Image.open(image_path)
 
 img = img.convert("RGB")
 
-img = img.resize((224,224))
+img = img.resize(IMG_SIZE)
 
 img_array = np.array(img)
 
