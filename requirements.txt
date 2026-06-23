@@ -1,5 +1,4 @@
-flask
-gunicorn
 numpy
 pillow
+streamlit
 tensorflow-cpu

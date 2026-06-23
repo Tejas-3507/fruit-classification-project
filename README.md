@@ -1,6 +1,6 @@
 # Fruit Classifier
 
-A TensorFlow and Flask web app that classifies uploaded images as fruit or non-fruit. For fruit images, it predicts one of these classes:
+A TensorFlow and Streamlit web app that classifies uploaded images as fruit or non-fruit. For fruit images, it predicts one of these classes:
 
 - Apple
 - Banana
@@ -14,12 +14,12 @@ The model also supports a `non_fruit` class.
 
 ```text
 FruitClassifier/
-|-- app.py                    # Flask web app and prediction API
-|-- fruit_classifier.keras    # Trained Keras model used by the server
+|-- app.py                    # Streamlit web app
+|-- fruit_classifier.keras    # Trained Keras model used by the app
 |-- predict.py                # Command-line prediction script
 |-- train.py                  # Training script
 |-- requirements.txt          # Python dependencies
-|-- Procfile                  # Deployment start command
+|-- Procfile                  # Generic server deployment command
 |-- runtime.txt               # Python runtime hint for hosting platforms
 `-- README.md
 ```
@@ -52,44 +52,17 @@ pip install -r requirements.txt
 
 ## Run Locally
 
-Start the Flask server:
+Start the Streamlit app:
 
 ```bash
-python app.py
+streamlit run app.py
 ```
 
-Open:
+Open the local URL shown in the terminal. Streamlit usually starts at:
 
 ```text
-http://localhost:5000
+http://localhost:8501
 ```
-
-Health check:
-
-```text
-http://localhost:5000/health
-```
-
-## Prediction API
-
-Send an image to the `/predict` endpoint:
-
-```bash
-curl -X POST -H "Accept: application/json" -F "image=@test/test.jpg" http://localhost:5000/predict
-```
-
-Example response:
-
-```json
-{
-  "confidence": 98.42,
-  "fruit_name": "Apple",
-  "label": "apple",
-  "type": "Fruit"
-}
-```
-
-For non-fruit images, `fruit_name` will be `null`.
 
 ## Train Model
 
@@ -132,22 +105,35 @@ Then enter an image path when prompted.
 
 ## Deployment
 
+### Streamlit Community Cloud
+
+1. Push this repository to GitHub.
+2. Open Streamlit Community Cloud.
+3. Create a new app from this GitHub repository.
+4. Set the main file path to:
+
+```text
+app.py
+```
+
+Streamlit Cloud will install dependencies from `requirements.txt`.
+
+### Generic Server
+
 This repo includes a `Procfile`:
 
 ```text
-web: gunicorn app:app
+web: streamlit run app.py --server.port=$PORT --server.address=0.0.0.0
 ```
 
-Most Python hosting platforms can use:
+If your platform does not use `Procfile`, use this start command:
 
 ```bash
-pip install -r requirements.txt
-gunicorn app:app
+streamlit run app.py --server.port=$PORT --server.address=0.0.0.0
 ```
 
 Important deployment notes:
 
 - Keep `fruit_classifier.keras` in the repository or upload it with your deployment.
-- The app reads the port from the `PORT` environment variable when provided.
 - `dataset/`, `test/`, and virtual environment folders are ignored because they are not needed in production.
 - If your model file becomes larger than GitHub's file size limit, use Git LFS or external model storage.
